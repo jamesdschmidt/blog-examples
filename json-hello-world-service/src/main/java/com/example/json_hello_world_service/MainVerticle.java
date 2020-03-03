@@ -2,8 +2,6 @@ package com.example.json_hello_world_service;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
-import io.vertx.core.http.HttpHeaders;
-import io.vertx.core.json.JsonObject;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -11,11 +9,10 @@ public class MainVerticle extends AbstractVerticle {
   public void start(Promise<Void> startPromise) throws Exception {
     vertx.createHttpServer().requestHandler(req -> {
 
-      var json = new JsonObject().put("greeting", "hello, world");
-
       req.response()
-        .putHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-        .end(json.encode());
+        .putHeader("content-type", "application/json")
+        .end("{\"greeting\":\"hello, world\"}");
+
     }).listen(8888, http -> {
       if (http.succeeded()) {
         startPromise.complete();
